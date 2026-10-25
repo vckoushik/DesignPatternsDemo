@@ -1,0 +1,93 @@
+@DesignPatternsDemo_HostAddress = http://localhost:5097
+@contentType = application/json
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Products API — End-to-End HTTP Test Script
+# Run these requests in order to exercise the full CRUD flow.
+# ─────────────────────────────────────────────────────────────────────────────
+
+### [1] GET all products (initially empty)
+GET {{DesignPatternsDemo_HostAddress}}/api/products
+Accept: {{contentType}}
+
+###
+
+### [2] POST — Create product Alpha
+# @name createAlpha
+POST {{DesignPatternsDemo_HostAddress}}/api/products
+Content-Type: {{contentType}}
+
+{
+  "name": "Product Alpha",
+  "description": "First demo product",
+  "price": 29.99,
+  "category": "Demo",
+  "stockQuantity": 100
+}
+
+###
+
+### [3] POST — Create product Beta
+# @name createBeta
+POST {{DesignPatternsDemo_HostAddress}}/api/products
+Content-Type: {{contentType}}
+
+{
+  "name": "Product Beta",
+  "description": "Second demo product",
+  "price": 49.99,
+  "category": "Demo",
+  "stockQuantity": 50
+}
+
+###
+
+### [4] GET all products (should now contain Alpha and Beta)
+GET {{DesignPatternsDemo_HostAddress}}/api/products
+Accept: {{contentType}}
+
+###
+
+### [5] GET product by ID — replace {productId} with a real GUID from step [2]
+@productId = 00000000-0000-0000-0000-000000000000
+GET {{DesignPatternsDemo_HostAddress}}/api/products/{{productId}}
+Accept: {{contentType}}
+
+###
+
+### [6] PUT — Update product by ID
+PUT {{DesignPatternsDemo_HostAddress}}/api/products/{{productId}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Product Alpha (Updated)",
+  "description": "Updated description",
+  "price": 34.99,
+  "category": "Demo",
+  "stockQuantity": 90
+}
+
+###
+
+### [7] GET updated product by ID (verify changes)
+GET {{DesignPatternsDemo_HostAddress}}/api/products/{{productId}}
+Accept: {{contentType}}
+
+###
+
+### [8] DELETE product by ID
+DELETE {{DesignPatternsDemo_HostAddress}}/api/products/{{productId}}
+
+###
+
+### [9] GET deleted product — expect 404
+GET {{DesignPatternsDemo_HostAddress}}/api/products/{{productId}}
+Accept: {{contentType}}
+
+###
+
+### [10] GET all products (only Beta should remain)
+GET {{DesignPatternsDemo_HostAddress}}/api/products
+Accept: {{contentType}}
+
+###

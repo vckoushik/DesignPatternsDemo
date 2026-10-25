@@ -1,0 +1,217 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ─────────────────────────────────────────────────────────────────────────
+    // PRIMARY TASKS — available via Terminal > Run Task...
+    // ─────────────────────────────────────────────────────────────────────────
+
+    {
+      "label": "▶ Run API (Development)",
+      "detail": "Start the API with hot-reload in the Development environment",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "watch",
+        "--project", "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj",
+        "run",
+        "--launch-profile", "http"
+      ],
+      "options": {
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "tab": "DesignPatternsDemo",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dotnet-watch",
+        "pattern": {
+          "regexp": "^.*error.*$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*dotnet watch.*$",
+          "endsPattern": "^.*Application started.*$"
+        }
+      }
+    },
+
+    {
+      "label": "▶ Run API (No Hot-Reload)",
+      "detail": "Start the API once — no file watching",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project", "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj",
+        "--launch-profile", "http"
+      ],
+      "options": {
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        }
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "tab": "DesignPatternsDemo",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dotnet",
+        "pattern": {
+          "regexp": "^.*error.*$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Build started.*$",
+          "endsPattern": "^.*Application started.*$"
+        }
+      }
+    },
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // BUILD TASKS
+    // ─────────────────────────────────────────────────────────────────────────
+
+    {
+      "label": "🔨 Build (Debug)",
+      "detail": "Compile the project in Debug configuration",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj",
+        "--configuration", "Debug"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "problemMatcher": "$msCompile"
+    },
+
+    {
+      "label": "🔨 Build (Release)",
+      "detail": "Compile the project in Release configuration",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj",
+        "--configuration", "Release"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "problemMatcher": "$msCompile"
+    },
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // RESTORE & CLEAN
+    // ─────────────────────────────────────────────────────────────────────────
+
+    {
+      "label": "📦 Restore NuGet Packages",
+      "detail": "Run dotnet restore to fetch all NuGet dependencies",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "restore",
+        "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "🧹 Clean",
+      "detail": "Delete bin/ and obj/ output folders",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "🧹 Clean + Restore + Build (Debug)",
+      "detail": "Full clean rebuild in Debug configuration",
+      "dependsOn": ["🧹 Clean", "📦 Restore NuGet Packages", "🔨 Build (Debug)"],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false
+      },
+      "problemMatcher": "$msCompile"
+    },
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // PUBLISH
+    // ─────────────────────────────────────────────────────────────────────────
+
+    {
+      "label": "📤 Publish (Release)",
+      "detail": "Publish a self-contained Release build to ./publish/",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "publish",
+        "${workspaceFolder}/DesignPatternsDemo/DesignPatternsDemo.csproj",
+        "--configuration", "Release",
+        "--output", "${workspaceFolder}/publish"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true,
+        "showReuseMessage": false
+      },
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
