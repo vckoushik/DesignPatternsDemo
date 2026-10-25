@@ -5,7 +5,7 @@ using DesignPatternsDemo.Repository.Interfaces;
 using DesignPatternsDemo.Services;
 using DesignPatternsDemo.Services.Interfaces;
 using Microsoft.OpenApi.Models;
-
+using DesignPatternsDemo.Services.Patterns;
 var builder = WebApplication.CreateBuilder(args);
 
 // ── MVC / Controllers ────────────────────────────────────────────────────────
@@ -45,6 +45,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 // ── Repositories ─────────────────────────────────────────────────────────────
 // Singleton: in-memory store must survive the lifetime of the application.
 builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+
+// -- Singleton Services ───────────────────────────────────────────────────────
+builder.Services.AddSingleton<IConsoleLogger, ConsoleLogger>();
 
 // ── Build ─────────────────────────────────────────────────────────────────────
 var app = builder.Build();
